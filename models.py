@@ -10,4 +10,7 @@ class Goal(db.Model):
     completed = db.Column(db.Boolean , default = False)
 
 class Task(db.Model):
-    pass
+    id = db.Column(db.Integer , primary_key= True)
+    Taskk = db.Column(db.String(300), nullable = False)
+    completed = db.Column(db.Boolean , default = False)
+    Goal_id = db.Column(db.Integer , db.ForeignKey("goal_id"), nullable = False ) 
