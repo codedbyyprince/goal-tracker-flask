@@ -18,7 +18,7 @@ def home():
 
 @app.route('/add' , methods=['POST'])
 def add_task():
-    task_name = request.form.get('task')
+    task_name = request.form.get('task_name')
     if task_name != '':
         new = Task(task_name=task_name)
         db.session.add(new)

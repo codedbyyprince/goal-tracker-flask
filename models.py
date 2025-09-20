@@ -13,4 +13,4 @@ class Task(db.Model):
     id = db.Column(db.Integer , primary_key= True)
     Taskk = db.Column(db.String(300), nullable = False)
     completed = db.Column(db.Boolean , default = False)
-    Goal_id = db.Column(db.Integer , db.ForeignKey("goal_id"), nullable = False ) 
+    Goal_id = db.Column(db.Integer, db.ForeignKey("goal.id"), nullable=False)
