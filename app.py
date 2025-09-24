@@ -4,7 +4,7 @@ from models import db, Goal, Task
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://prince_user:password@localhost/store'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://prince_user:password@localhost/goals'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
@@ -16,16 +16,17 @@ def home():
     Tasks = Task.query.all()
     return render_template('home.html', Tasks=Tasks)
 
-@app.route('/add' , methods=['POST'])
+@app.route('/' , methods=['POST', 'GET'])
 def add_task():
-    task_name = request.form.get('task_name')
-    if task_name != '':
-        new = Task(task_name=task_name)
-        db.session.add(new)
-        db.session.commit()
-        return redirect('/')
+    if request.method == 'POST':
+        task_name = request.form.get('task_name')
+        if task_name != '':
+            new = Task(Taskk=task_name)
+            db.session.add(new)
+            db.session.commit()
+            return redirect('/')
     else:
         return redirect('/')
-    
+        
 if __name__ == '__main__':
     app.run(debug=True)

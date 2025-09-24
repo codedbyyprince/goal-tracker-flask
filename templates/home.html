@@ -8,12 +8,14 @@
 <body>
 
     <h1>Tasks </h1>
-    {%for task in tasks %}
-        {{ Tasks }}
+    {%for task in Tasks%}
+       <li>
+            {{ task.Taskk}}
+       </li> 
         
         {%endfor%}
   
-<form action="/add" method="POST">
+<form action="/" method="POST">
     <input type="text" name="task_name" placeholder="Enter a task" required>
     <button type="submit">Add Task</button>
 </form>
