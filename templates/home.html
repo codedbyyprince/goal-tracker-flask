@@ -10,9 +10,12 @@
     <h1>Tasks </h1>
     {%for task in Tasks%}
        <ul>
-           {{ task.Taskk}}
-           <a href="/delete/{{task.id}}" type="button"> delete</a>
-        
+           
+           <form method="POST">
+              <li>{{task.Taskk}} {{task.completed}}</li>
+              <button type="submit" formaction="/delete/{{task.id}}">Remove</button>
+              <button type="submit" formaction="/completed/{{task.id}}">Done</button>
+           </form>
        </ul>
        
         {%endfor%}

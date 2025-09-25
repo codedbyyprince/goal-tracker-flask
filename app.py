@@ -28,14 +28,23 @@ def add_task():
     else:
         return redirect('/')
     
-@app.route('/delete/<int:id>')
+@app.route('/delete/<int:id>', methods=['POST'])
 def erase(id):
-    task = Task.query.get(id)
-    if task:
-        db.session.delete(task)
-        db.session.commit()
-    return redirect('/')
+    if request.method == 'POST':       
+        task = Task.query.get(id)
+        if task:
+            db.session.delete(task)
+            db.session.commit()
+        return redirect('/')
 
+@app.route('/completed/<int:id>', methods=['POST'])
+def complete(id):
+    if request.method == 'POST':
+        task = Task.query.get(id)
+        if task:
+            task.completed = True
+            db.session.commit()
+        return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True)
