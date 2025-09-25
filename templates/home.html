@@ -3,26 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks </title>
+    <title>Tasks</title>
 </head>
 <body>
 
-    <h1>Tasks </h1>
-    {%for task in Tasks%}
-       <ul>
-           
-           <form method="POST">
-              <li>{{task.Taskk}} {{task.completed}}</li>
-              <button type="submit" formaction="/delete/{{task.id}}">Remove</button>
-              <button type="submit" formaction="/completed/{{task.id}}">Done</button>
-           </form>
-       </ul>
-       
-        {%endfor%}
-  
-<form action="/" method="POST">
-    <input type="text" name="task_name" placeholder="Enter a task" required>
-    <button type="submit">Add Task</button>
-</form>
-</body>
-</html>
+    <h1>Tasks</h1>
+
+    <table border="1">
+        <tr>
+            <th>Task</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for task in Tasks %}
+        <tr>
+            <td>{{ task.Taskk }}</td>
+            <td>
+                {% if task.completed %}
+                    completed
+                {% else %}
+                    pending
+                {% endif %}
+            </td>
+            <td>
+                <form method="POST" style="display:inline;">
+                    <button type="submit" formaction="/delete/{{task.id}}">Remove</button>
+                </form>
+                <form method="POST" style="display:inline;">
+                    <button type="submit" formaction="/completed/{{task.id}}">Done</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <form action="/" method="POST">
+        <input type="text" name="task_name" placeholder="Enter a task" required>
+        <button type="submit">Add Task</button>
