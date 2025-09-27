@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goals</title>
+</head>
+<body>
+    <h1>Goals</h1>
+    <table border ="1">
+        <tr>
+            <th>Goals</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        {%for goal in Goals%}
+        <tr>
+            <td>{{goal.goals}}</td>
+            <td>
+                {%if goal.completed %}
+                    completed
+                {% else %}
+                    In Progress
+                {% endif %}
+            </td>
+            <td>
+                <form method="POST" style="display:inline;">
+                    <button type="submit" formaction="/delete/{{goal.id}}">Remove</button>
+                </form>
+                <form method="POST" style="display:inline;">
+                    <button type="submit" formaction="/completed/{{goal.id}}">Done</button>
+                </form>
+            </td>
+        </tr>
+        {%endfor%}
+    </table>
+    
+
+    <form action="/goals" method="POST">
+        <input type="text" name="goal_name" placeholder="Enter Your Goal" required>
+        <button type="submit">Add</button>
+    </form>
+
+</body>
+</html>
