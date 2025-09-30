@@ -35,7 +35,7 @@ def add_goals():
     else:
         return redirect('/goals')
 # delte goals
-@app.route('/delete/<int:id>', methods=['POST'])
+@app.route('/goals/delete/<int:id>', methods=['POST'])
 def delete_goals(id):
     if request.method == 'POST':
         goal = Goal.query.get(id)
@@ -47,7 +47,7 @@ def delete_goals(id):
             return redirect('/goals')
 
 # complete goals
-@app.route('/completed/<int:id>' , methods=["POST"])
+@app.route('/goals/completed/<int:id>' , methods=["POST"])
 def complete_goals(id):
     if request.method == 'POST':
         goal = Goal.query.get(id)
@@ -60,15 +60,12 @@ def complete_goals(id):
 
 
 
-#Home route to display tasks
-@app.route('/')
+# Function to add and display tasks 
+@app.route('/' , methods=['GET', 'POST'])
 def home():
     Tasks = Task.query.all()
     return render_template('home.html', Tasks=Tasks)
 
-
-# Function to add and display tasks 
-@app.route('/' , methods=['POST', 'GET'])
 def add_task():
     if request.method == 'POST':
         task_name = request.form.get('task_name')
@@ -83,7 +80,7 @@ def add_task():
 
 
 # Remove task function 
-@app.route('/delete/<int:id>', methods=['POST'])
+@app.route('/task/delete/<int:id>', methods=['POST'])
 def erase(id):
     if request.method == 'POST':       
         task = Task.query.get(id)
@@ -94,7 +91,7 @@ def erase(id):
 
 
 # Completed function 
-@app.route('/completed/<int:id>', methods=['POST'])
+@app.route('/task/completed/<int:id>', methods=['POST'])
 def complete(id):
     if request.method == 'POST':
         task = Task.query.get(id)
