@@ -38,7 +38,19 @@
         {% endfor %}
     </table>
 
+    
     <form action="/task" method="POST">
         <input type="text" name="task_name" placeholder="Enter a task" required>
-        <input type="text" name="goal_id" placeholder="Enter goal ID" required>
+        <select name="goals" id=" Select_Goal">
+            <option value="">No goal</option>
+            {% for goal in Goals %}
+                <option value="{{ goal.id }}">{{ goal.goals }}</option>
+            {% endfor %}
+        </select>
         <button type="submit">Add Task</button> 
+        
+    </form>
+        <a href="/goals">Goals</a>
+    <a href="/completed_tasks">Completed tasks</a>
+</body>
+</html>

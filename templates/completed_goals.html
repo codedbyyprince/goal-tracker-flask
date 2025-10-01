@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completed Goals</title>
+</head>
+<body>
+    <h1>Completed Goals</h1>
+    <ul>
+        {%for goal in goals%}
+        <li>
+            {{goal.goals}}
+            <form method="POST" style="display:inline;">
+               <button type="submit" formaction="/completed_goals/delete/{{goal.id}}">Delete</button>
+            </form>
+        </li>
+        {%endfor%}
+    </ul>
+<a href="/goals">Back</a>
+</body>
+</html>

@@ -3,26 +3,26 @@ from flask_sqlalchemy import SQLAlchemy
 from models import db, Goal, Task
 
 app = Flask(__name__)
-# connecting database
 
+# Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://prince_user:password@localhost/goals'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
+
 with app.app_context():
     db.create_all()
 
-# routes
+# ------------------ GOALS ROUTES ------------------
 
-# Adding goals route
-
-# display goals
+# Display goals
 @app.route('/goals')
 def display_goals():
+    # Only show goals that are not completed
     Goals = Goal.query.filter(Goal.completed == False).all()
     return render_template('goals.html', Goals=Goals)
 
-#add goals 
+# Add a new goal
 @app.route('/goals', methods=['POST', 'GET'])
 def add_goals():
     if request.method == 'POST':
@@ -31,85 +31,109 @@ def add_goals():
             new = Goal(goals=goal_name)
             db.session.add(new)
             db.session.commit()
-            return redirect('/goals')
-    else:
-        return redirect('/goals')
-# delte goals
+    return redirect('/goals')
+
+# Delete a goal
 @app.route('/goals/delete/<int:id>', methods=['POST'])
 def delete_goals(id):
-    if request.method == 'POST':
-        goal = Goal.query.get(id)
-        if goal:
-            db.session.delete(goal)
-            db.session.commit()
-            return redirect('/goals')
-        else:
-            return redirect('/goals')
+    goal = Goal.query.get(id)
+    if goal:
+        db.session.delete(goal)
+        db.session.commit()
+    return redirect('/goals')
 
-# complete goals
-@app.route('/goals/completed/<int:id>' , methods=["POST"])
+# Mark a goal as completed
+@app.route('/goals/completed/<int:id>', methods=['POST'])
 def complete_goals(id):
-    if request.method == 'POST':
-        goal = Goal.query.get(id)
-        if goal:
-            goal.completed = True
-            db.session.commit()
-            return redirect('/goals')
-        else:
-            return redirect('/goals')
+    goal = Goal.query.get(id)
+    if goal:
+        goal.completed = True
+        db.session.commit()
+    return redirect('/goals')
 
+# ------------------ TASKS ROUTES ------------------
 
-
-# Function to add and display tasks 
-@app.route('/' , methods=['GET', 'POST'])
+# Tasks page
+@app.route('/', methods=['GET', 'POST'])
 def home():
+    # Only show incomplete tasks
     Tasks = Task.query.filter(Task.completed == False).all()
-    return render_template('home.html', Tasks=Tasks)
+    # Pass goals for the dropdown (for task creation)
+    Goals = Goal.query.filter(Goal.completed == False).all()
+    return render_template('home.html', Tasks=Tasks, Goals=Goals)
 
-@app.route('/task', methods=['POST', 'GET'])
+# Add a task
+@app.route('/task', methods=['POST'])
 def add_task():
-    if request.method == 'POST':
-        task_name = request.form.get('task_name')
-        goal_id = request.form.get('goal_id')
-        if task_name != '':
-            new = Task(Taskk=task_name , Goal_id=goal_id)
-            db.session.add(new)
-            db.session.commit()
-            return redirect('/')
+    task_name = request.form.get('task_name')
+    goal_id = request.form.get('goals')  # Convert string to int
+    if goal_id == "":
+        goal_id = None
     else:
-        return redirect('/')
-    
+        goal_id = int(goal_id)
+    if task_name != '':
+        new = Task(Taskk=task_name, Goal_id=goal_id)
+        db.session.add(new)
+        db.session.commit()
+    return redirect('/')
 
-
-# Remove task function 
+# Delete a task
 @app.route('/task/delete/<int:id>', methods=['POST'])
 def erase(id):
-    if request.method == 'POST':       
-        task = Task.query.get(id)
-        if task:
-            db.session.delete(task)
-            db.session.commit()
-        return redirect('/')
+    task = Task.query.get(id)
+    if task:
+        db.session.delete(task)
+        db.session.commit()
+    return redirect('/')
 
-
-# Completed function 
+# Mark a task as completed
 @app.route('/task/completed/<int:id>', methods=['POST'])
 def complete(id):
-    if request.method == 'POST':
-        task = Task.query.get(id)
-        if task:
-            task.completed = True
-            db.session.commit()
-        return redirect('/')
+    task = Task.query.get(id)
+    if task:
+        task.completed = True
+        db.session.commit()
+    return redirect('/')
+
+@app.route('/completed_tasks', methods=['GET'])
+def completed_tasks():
+    tasks = Task.query.filter(Task.completed == True).all()
+    return render_template('completed_tasks.html', tasks=tasks)
+
+@app.route('/completed_task/delete/<int:id>', methods=['POST'])
+def remove_completed_task(id):
+    task = Task.query.get(id)
+    if task:
+        db.session.delete(task)
+        db.session.commit()
+    return redirect('/completed_tasks')
 
 
-# goal progress
-@app.route('/goals/<int:goal_id>/tasks' , methods=['GET', 'POST'])
+
+@app.route('/completed_goals', methods=['GET'])
+def completed_goals():
+    goals = Goal.query.filter(Goal.completed == True).all()
+    return render_template('completed_goals.html', goals=goals)
+
+@app.route('/completed_goals/delete/<int:id>', methods=['POST'])
+def remove_completed_goal(id):
+    goal = Goal.query.get(id)
+    if goal:
+        db.session.delete(goal)
+        db.session.commit()
+    return redirect('/completed_goals')
+
+# ------------------ GOAL PROGRESS ------------------
+
+@app.route('/goals/<int:goal_id>/tasks', methods=['GET'])
 def goal_info(goal_id):
+    # Fetch the goal
     goal = Goal.query.get_or_404(goal_id)
-    tasks = Task.query.filter_by(Goal_id= goal.id).all()
-    return render_template('info.html', goal=goal, tasks=tasks) 
+    # Fetch tasks belonging to that goal
+    tasks = Task.query.filter_by(Goal_id=goal.id).all()
+    return render_template('info.html', goal=goal, tasks=tasks)
 
+# ------------------ RUN APP ------------------
 
 if __name__ == '__main__':
     app.run(debug=True)

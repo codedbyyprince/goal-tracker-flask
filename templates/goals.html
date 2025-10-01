@@ -9,14 +9,14 @@
     <h1>Goals</h1>
     <table border ="1">
         <tr>
-            <th>ID</th>
+            
             <th>Goals</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
         {%for goal in Goals%}
         <tr>
-            <td>{{goal.id}}</td>
+            
             <td>{{goal.goals}}</td>
             <td>
                 {%if goal.completed %}
@@ -38,11 +38,13 @@
         {%endfor%}
     </table>    
     
-
+    
     <form action="/goals" method="POST">
         <input type="text" name="goal_name" placeholder="Enter Your Goal" required>
         <button type="submit">Add</button>
     </form>
-
+    
+    <a href="/">Home </a>
+    <a href="/completed_goals"> Completed Goals</a>
 </body>
 </html>
