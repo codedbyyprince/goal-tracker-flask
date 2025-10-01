@@ -7,16 +7,19 @@
 </head>
 <body>
     <h1>Goal progress</h1>
+    <h2>{{goal.goals}}</h2>
+    
 
     <ul>
+        {%for task in tasks%}
         <li>
-            {%for task in tasks%}
 
             {{task.Taskk}}
             
         </li>
+        {%endfor%}
     </ul>
 
 
 </body>
-</html>
+</html> 

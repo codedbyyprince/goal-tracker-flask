@@ -9,12 +9,14 @@
     <h1>Goals</h1>
     <table border ="1">
         <tr>
+            <th>ID</th>
             <th>Goals</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
         {%for goal in Goals%}
         <tr>
+            <td>{{goal.id}}</td>
             <td>{{goal.goals}}</td>
             <td>
                 {%if goal.completed %}
@@ -30,10 +32,11 @@
                 <form method="POST" style="display:inline;">
                     <button type="submit" formaction="/goals/completed/{{goal.id}}">Done</button>
                 </form>
+                <a href="{{url_for('goal_info', goal_id = goal.id)}}">Info</a>
             </td>
         </tr>
         {%endfor%}
-    </table>
+    </table>    
     
 
     <form action="/goals" method="POST">

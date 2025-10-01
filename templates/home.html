@@ -38,6 +38,7 @@
         {% endfor %}
     </table>
 
-    <form action="/" method="POST">
+    <form action="/task" method="POST">
         <input type="text" name="task_name" placeholder="Enter a task" required>
-        <button type="submit">Add Task</button>
+        <input type="text" name="goal_id" placeholder="Enter goal ID" required>
+        <button type="submit">Add Task</button> 

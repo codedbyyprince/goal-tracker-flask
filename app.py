@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from models import db, Goal, Task
 
@@ -19,7 +19,7 @@ with app.app_context():
 # display goals
 @app.route('/goals')
 def display_goals():
-    Goals = Goal.query.all()
+    Goals = Goal.query.filter(Goal.completed == False).all()
     return render_template('goals.html', Goals=Goals)
 
 #add goals 
@@ -63,14 +63,16 @@ def complete_goals(id):
 # Function to add and display tasks 
 @app.route('/' , methods=['GET', 'POST'])
 def home():
-    Tasks = Task.query.all()
+    Tasks = Task.query.filter(Task.completed == False).all()
     return render_template('home.html', Tasks=Tasks)
 
+@app.route('/task', methods=['POST', 'GET'])
 def add_task():
     if request.method == 'POST':
         task_name = request.form.get('task_name')
+        goal_id = request.form.get('goal_id')
         if task_name != '':
-            new = Task(Taskk=task_name)
+            new = Task(Taskk=task_name , Goal_id=goal_id)
             db.session.add(new)
             db.session.commit()
             return redirect('/')
@@ -101,6 +103,12 @@ def complete(id):
         return redirect('/')
 
 
+# goal progress
+@app.route('/goals/<int:goal_id>/tasks' , methods=['GET', 'POST'])
+def goal_info(goal_id):
+    goal = Goal.query.get_or_404(goal_id)
+    tasks = Task.query.filter_by(Goal_id= goal.id).all()
+    return render_template('info.html', goal=goal, tasks=tasks) 
 
 
 if __name__ == '__main__':
