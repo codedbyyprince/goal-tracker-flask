@@ -1,0 +1,66 @@
+Goal Tracker (Flask + PostgreSQL + Render)
+
+A simple Flask app to manage goals and tasks, with tasks linked to specific goals.
+Deployable on Render with a PostgreSQL database.
+
+📖 Features
+
+Create and manage goals
+
+Create tasks and assign them to goals
+
+View all tasks linked to a goal
+
+Cloud database support (PostgreSQL on Render)
+
+Works on desktop and mobile browser once deployed
+
+🚀 Setup & Deployment
+1. Clone this repository
+git clone https://github.com/codedbyyprince/goal-tracker-flask.git
+cd goal-tracker-flask
+
+2. Install dependencies
+pip install -r requirements.txt
+
+3. Create a PostgreSQL database on Render
+
+Sign in at Render
+
+Create a PostgreSQL database
+
+Copy the database URL (e.g. postgres://...)(internal one )
+
+4. Deploy the app on Render
+
+Push this code to your own GitHub repo (credit is appreciated 🙌)
+
+On Render, create a Web Service and connect your repo
+
+In the service settings, go to Environment Variables and add:
+
+DATABASE_URL = <your_render_database_url>
+
+
+(That’s the only setup needed — no VS Code changes required)
+
+5. Done 🎉
+
+Deploy the service
+
+Access it from browser or mobile, anywhere
+
+🔮 Future Ideas
+
+Add login/signup
+
+Task deadlines & reminders
+
+Improved UI/UX
+
+🧑‍💻 Author
+
+Prince
+Beginner Python developer exploring backend, data science & AI.
+
+Feel free to use or fork this project. If you share it, credit is welcome but not required.
