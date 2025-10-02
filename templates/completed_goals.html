@@ -4,19 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Completed Goals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        /* Header */
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #00c4b4;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Goal List (Card Layout) */
+        .goal-list {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .goal-card {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .goal-card:hover {
+            background-color: #333333;
+            transform: translateY(-3px);
+        }
+
+        .goal-content {
+            flex: 1;
+            font-size: 1.1rem;
+        }
+
+        .goal-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Buttons */
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            background-color: #dc3545;
+            color: #e0e0e0;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #b02a37;
+            transform: translateY(-2px);
+        }
+
+        /* Links */
+        .links {
+            text-align: center;
+        }
+
+        a {
+            display: inline-block;
+            margin: 0 1rem;
+            color: #00c4b4;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #00a69a;
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .goal-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .goal-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Completed Goals</h1>
-    <ul>
-        {%for goal in goals%}
-        <li>
-            {{goal.goals}}
-            <form method="POST" style="display:inline;">
-               <button type="submit" formaction="/completed_goals/delete/{{goal.id}}">Delete</button>
-            </form>
-        </li>
-        {%endfor%}
-    </ul>
-<a href="/goals">Back</a>
+    <div class="goal-list">
+        {% for goal in goals %}
+        <div class="goal-card">
+            <div class="goal-content">{{ goal.goals }}</div>
+            <div class="goal-actions">
+                <form method="POST" style="display:inline;">
+                    <button type="submit" formaction="/completed_goals/delete/{{goal.id}}">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="links">
+        <a href="/goals">Back</a>
+    </div>
 </body>
 </html>

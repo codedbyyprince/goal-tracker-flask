@@ -3,25 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Goal progress info </title>
+    <title>Goal Progress Info</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        /* Header */
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #00c4b4;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #e0e0e0;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        /* Task List (Card Layout) */
+        .task-list {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .task-card {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .task-card:hover {
+            background-color: #333333;
+            transform: translateY(-3px);
+        }
+
+        .task-content {
+            flex: 1;
+            font-size: 1.1rem;
+        }
+
+        /* Links */
+        .links {
+            text-align: center;
+        }
+
+        a {
+            display: inline-block;
+            margin: 0 1rem;
+            color: #00c4b4;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #00a69a;
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .task-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Goal progress</h1>
-    <h2>{{goal.goals}}</h2>
-    
-
-    <ul>
-        {%for task in tasks%}
-        <li>
-
-            {{task.Taskk}}
-            
-        </li>
-        {%endfor%}
-    </ul>
- 
-
-<a href="/goals">Back</a>
-
+    <h1>Goal Progress</h1>
+    <h2>{{ goal.goals }}</h2>
+    <div class="task-list">
+        {% for task in tasks %}
+        <div class="task-card">
+            <div class="task-content">{{ task.Taskk }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="links">
+        <a href="/goals">Back</a>
+    </div>
 </body>
-</html> 
+</html>

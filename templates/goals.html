@@ -4,28 +4,241 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Goals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        /* Header */
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #00c4b4;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Goal List (Card Layout) */
+        .goal-list {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .goal-card {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .goal-card:hover {
+            background-color: #333333;
+            transform: translateY(-3px);
+        }
+
+        .goal-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .goal-name {
+            flex: 2;
+            font-size: 1.1rem;
+        }
+
+        .goal-status {
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .goal-status::before {
+            content: '';
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .goal-status.completed::before {
+            background-color: #28a745;
+        }
+
+        .goal-status.in-progress::before {
+            background-color: #dc3545;
+        }
+
+        .goal-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        /* Buttons */
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button[formaction*="/delete"] {
+            background-color: #dc3545;
+            color: #e0e0e0;
+        }
+
+        button[formaction*="/delete"]:hover {
+            background-color: #b02a37;
+            transform: translateY(-2px);
+        }
+
+        button[formaction*="/completed"] {
+            background-color: #28a745;
+            color: #e0e0e0;
+        }
+
+        button[formaction*="/completed"]:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        /* Form */
+        form {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input[type="text"] {
+            padding: 0.8rem;
+            border: 1px solid #3a3a3a;
+            border-radius: 5px;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]::placeholder {
+            color: #a0a0a0;
+        }
+
+        input[type="text"]:focus {
+            border-color: #00c4b4;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 196, 180, 0.3);
+        }
+
+        button[type="submit"] {
+            background-color: #00c4b4;
+            color: #1a1a1a;
+            padding: 0.8rem 1.5rem;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #00a69a;
+            transform: translateY(-2px);
+        }
+
+        /* Links */
+        .links {
+            text-align: center;
+        }
+
+        a {
+            display: inline-block;
+            margin: 0 1rem;
+            color: #00c4b4;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #00a69a;
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .goal-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .goal-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .goal-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            form {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            input[type="text"] {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Goals</h1>
-    <table border ="1">
-        <tr>
-            
-            <th>Goals</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-        {%for goal in Goals%}
-        <tr>
-            
-            <td>{{goal.goals}}</td>
-            <td>
-                {%if goal.completed %}
-                    completed
-                {% else %}
-                    In Progress
-                {% endif %}
-            </td>
-            <td>
+    <div class="goal-list">
+        {% for goal in Goals %}
+        <div class="goal-card">
+            <div class="goal-content">
+                <div class="goal-name">{{ goal.goals }}</div>
+                <div class="goal-status {% if goal.completed %}completed{% else %}in-progress{% endif %}">
+                    {% if goal.completed %}
+                        completed
+                    {% else %}
+                        In Progress
+                    {% endif %}
+                </div>
+            </div>
+            <div class="goal-actions">
                 <form method="POST" style="display:inline;">
                     <button type="submit" formaction="/goals/delete/{{goal.id}}">Remove</button>
                 </form>
@@ -33,18 +246,19 @@
                     <button type="submit" formaction="/goals/completed/{{goal.id}}">Done</button>
                 </form>
                 <a href="{{url_for('goal_info', goal_id = goal.id)}}">Info</a>
-            </td>
-        </tr>
-        {%endfor%}
-    </table>    
-    
-    
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
     <form action="/goals" method="POST">
         <input type="text" name="goal_name" placeholder="Enter Your Goal" required>
         <button type="submit">Add</button>
     </form>
-    
-    <a href="/">Home </a>
-    <a href="/completed_goals"> Completed Goals</a>
+
+    <div class="links">
+        <a href="/">Home</a>
+        <a href="/completed_goals">Completed Goals</a>
+    </div>
 </body>
 </html>
